@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Diego\\source\\repos\\APIProyectoBases\\APIProyectoBases\\APIProyectoBases.csproj": {}
+    "C:\\Users\\nelso\\OneDrive\\Documentos\\2024\\Bases\\Proyecto1\\ElectriCars-EcoVVR\\APIProyectoBases\\APIProyectoBases\\APIProyectoBases.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Diego\\source\\repos\\APIProyectoBases\\APIProyectoBases\\APIProyectoBases.csproj": {
+    "C:\\Users\\nelso\\OneDrive\\Documentos\\2024\\Bases\\Proyecto1\\ElectriCars-EcoVVR\\APIProyectoBases\\APIProyectoBases\\APIProyectoBases.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Diego\\source\\repos\\APIProyectoBases\\APIProyectoBases\\APIProyectoBases.csproj",
+        "projectUniqueName": "C:\\Users\\nelso\\OneDrive\\Documentos\\2024\\Bases\\Proyecto1\\ElectriCars-EcoVVR\\APIProyectoBases\\APIProyectoBases\\APIProyectoBases.csproj",
         "projectName": "APIProyectoBases",
-        "projectPath": "C:\\Users\\Diego\\source\\repos\\APIProyectoBases\\APIProyectoBases\\APIProyectoBases.csproj",
-        "packagesPath": "C:\\Users\\Diego\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Diego\\source\\repos\\APIProyectoBases\\APIProyectoBases\\obj\\",
+        "projectPath": "C:\\Users\\nelso\\OneDrive\\Documentos\\2024\\Bases\\Proyecto1\\ElectriCars-EcoVVR\\APIProyectoBases\\APIProyectoBases\\APIProyectoBases.csproj",
+        "packagesPath": "C:\\Users\\nelso\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nelso\\OneDrive\\Documentos\\2024\\Bases\\Proyecto1\\ElectriCars-EcoVVR\\APIProyectoBases\\APIProyectoBases\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Diego\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nelso\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -73,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

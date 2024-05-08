@@ -99,12 +99,10 @@ CREATE TABLE EnsamblajeVehiculo(
 CREATE TABLE Venta(
 	ID int primary key identity,
 	ClienteID int,
-	EmpleadoID int,
 	VehiculoID int,
 	fechaVenta date,
 	montoTotal decimal(18,2),
 	metodoPago varchar(5),
 	constraint fk_ClienteID_Venta foreign key (ClienteID) references Cliente(ID),
-	constraint fk_EmpleadoID_Venta foreign key (EmpleadoID) references Empleado(ID),
 	constraint fk_VehiculoID_Venta foreign key (VehiculoID) references Vehiculo(ID)
 );
