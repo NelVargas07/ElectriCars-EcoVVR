@@ -159,8 +159,7 @@ CREATE PROCEDURE sp_actualizar_pieza
     @Nombre VARCHAR(50) = NULL,
     @Descripcion VARCHAR(300) = NULL,
     @Precio DECIMAL(18,2) = NULL,
-    @Stock INT = NULL,
-    @Activo BIT = NULL
+    @Stock INT = NULL
 AS
 BEGIN
 	BEGIN TRANSACTION 
@@ -173,8 +172,7 @@ BEGIN
     SET nombre = ISNULL(@Nombre, nombre),
         descripcion = ISNULL(@Descripcion, descripcion),
         precio = ISNULL(@Precio, precio),
-        stock = ISNULL(@Stock, stock),
-        activo = ISNULL(@Activo, activo)
+        stock = ISNULL(@Stock, stock)
     WHERE ID = @ID;
 
 	IF @@ERROR <> 0
