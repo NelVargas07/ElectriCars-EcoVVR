@@ -122,3 +122,9 @@ BEGIN
 		COMMIT TRANSACTION;
 		RETURN 1;
 END
+
+CREATE VIEW vw_listar_piezas
+as
+select P.ID, CP.nombreCategoria, P.nombre, P.descripcion, P.precio, P.stock from Pieza P
+		join categoriaPieza CP ON CP.ID = P.CategoriaPiezaID
+where P.activo = 1
