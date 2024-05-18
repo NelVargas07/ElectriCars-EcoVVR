@@ -204,7 +204,7 @@ BEGIN
         IF NOT EXISTS (SELECT 1 FROM Cliente WHERE correo = @correo)
         BEGIN
             ROLLBACK TRANSACTION;
-            RETURN 1;
+            RETURN 0;
         END
 
         
@@ -233,7 +233,7 @@ BEGIN
             IF NOT EXISTS (SELECT 1 FROM Vehiculo WHERE ID = @VehiculoID AND stock >= 1)
             BEGIN
                 ROLLBACK TRANSACTION;
-                RETURN 1;
+                RETURN 0;
             END
 
           
@@ -250,11 +250,34 @@ BEGIN
 
         
         COMMIT TRANSACTION;
-        RETURN 0;
+        RETURN 1;
     END TRY
     BEGIN CATCH
         
         ROLLBACK TRANSACTION;
-        RETURN 1;
+        RETURN 0;
     END CATCH
 END
+
+
+alter PROCEDURE sp_insertar_pieza
+    @CategoriaPiezaID INT,
+    @Nombre VARCHAR(50),
+    @Descripcion VARCHAR(300),
+    @Precio DECIMAL(18,2),
+    @Stock INT
+AS
+BEGIN
+	begin transaction
+	begin try
+		INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo)
+		VALUES (@CategoriaPiezaID, @Nombre, @Descripcion, @Precio, @Stock, 1);
+		COMMIT TRANSACTION;
+		return 1;
+	END TRY
+	BEGIN CATCH
+		-- Rollback transaction on error
+		ROLLBACK TRANSACTION;
+		return 0;
+	END CATCH
+END;
