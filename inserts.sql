@@ -28,3 +28,44 @@ VALUES
 (2, 'Modelo8', 'Marca8', '2023', 32000.00, 'https://imageio.forbes.com/specials-images/imageserve/6552427075f8cabe3a24d6f1/The-Ferrari-SF90-Stradale---/960x0.jpg?format=jpg&width=1440', 9, 1),
 (1, 'Modelo9', 'Marca9', '2021', 26000.00, 'https://imageio.forbes.com/specials-images/imageserve/6552427075f8cabe3a24d6f1/The-Ferrari-SF90-Stradale---/960x0.jpg?format=jpg&width=1440', 10, 1),
 (2, 'Modelo10', 'Marca10', '2020', 19000.00, 'https://imageio.forbes.com/specials-images/imageserve/6552427075f8cabe3a24d6f1/The-Ferrari-SF90-Stradale---/960x0.jpg?format=jpg&width=1440', 1, 1);
+
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Motor');
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Transmisión');
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Suspensión');
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Frenos');
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Eléctrico');
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Carrocería');
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Escape');
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Refrigeración');
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Interior');
+INSERT INTO CategoriaPieza (nombreCategoria) VALUES ('Accesorios');
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (1, 'Filtro de Aceite', 'Filtro de aceite para motor', 12.99, 50, 1);
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (2, 'Embrague', 'Kit de embrague completo', 249.99, 20, 1);
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (3, 'Amortiguador', 'Amortiguador delantero', 89.99, 35, 1);
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (4, 'Disco de Freno', 'Disco de freno ventilado', 55.99, 40, 1);
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (5, 'Batería', 'Batería de 12V 60Ah', 120.99, 25, 1);
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (6, 'Parachoques', 'Parachoques delantero', 150.00, 10, 1);
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (7, 'Silenciador', 'Silenciador de escape deportivo', 200.00, 15, 1);
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (8, 'Radiador', 'Radiador de alta eficiencia', 99.99, 20, 1);
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (9, 'Asiento', 'Asiento de cuero', 300.00, 5, 1);
+
+INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
+VALUES (10, 'Alfombra', 'Alfombra para coche', 30.00, 50, 1);

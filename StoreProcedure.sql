@@ -88,7 +88,7 @@ end
 
 
 CREATE PROCEDURE sp_insertar_venta
-	@ClienteID int,
+	@correo varchar(100),
 	@VehiculoID int,
 	@montoTotal decimal(18,2),
 	@metodoPago varchar(50)
@@ -96,7 +96,7 @@ AS
 BEGIN
 	BEGIN TRANSACTION
 		
-		IF NOT EXISTS( SELECT 1 FROM Cliente WHERE ID = @ClienteID)
+		IF NOT EXISTS( SELECT 1 FROM Cliente WHERE correo = @correo)
 		BEGIN
 			ROLLBACK TRANSACTION;
 			RETURN 0;
@@ -107,6 +107,11 @@ BEGIN
 			ROLLBACK TRANSACTION;
 			RETURN 0;	
 		END
+
+		DECLARE @ClienteID int;
+
+		SELECT @ClienteID = ID FROM Cliente WHERE @correo = correo
+
 		INSERT INTO Venta
 		VALUES(@ClienteID,@VehiculoID,GETDATE(),@montoTotal,@metodoPago)
 
@@ -185,3 +190,71 @@ BEGIN
 	RETURN 1;
 
 END;
+
+alter PROCEDURE sp_insertar_venta
+    @correo VARCHAR(100),
+    @montoTotal DECIMAL(18,2),
+    @metodoPago VARCHAR(50),
+    @vehiculoJSON NVARCHAR(MAX)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        
+        IF NOT EXISTS (SELECT 1 FROM Cliente WHERE correo = @correo)
+        BEGIN
+            ROLLBACK TRANSACTION;
+            RETURN 1;
+        END
+
+        
+        DECLARE @ClienteID INT;
+        SELECT @ClienteID = ID FROM Cliente WHERE correo = @correo;
+
+        
+        INSERT INTO Venta (ClienteID, fechaVenta, montoTotal, metodoPago)
+        VALUES (@ClienteID, GETDATE(), @montoTotal, @metodoPago);
+
+        DECLARE @VentaID INT = SCOPE_IDENTITY();
+
+     
+        DECLARE @i INT = 0;
+        DECLARE @total_records INT;
+        SET @total_records = JSON_VALUE(@vehiculoJSON, 'ARRAY_LENGTH($)'); -- Change based on your method to count JSON array length
+
+        DECLARE @VehiculoID INT;
+
+        
+        WHILE @i < @total_records
+        BEGIN
+            SET @VehiculoID = JSON_VALUE(@vehiculoJSON, CONCAT('$[', @i, '].ID'));
+
+            
+            IF NOT EXISTS (SELECT 1 FROM Vehiculo WHERE ID = @VehiculoID AND stock >= 1)
+            BEGIN
+                ROLLBACK TRANSACTION;
+                RETURN 1;
+            END
+
+          
+            INSERT INTO Venta_Vehiculo (ventaID, vehiculoID)
+            VALUES (@VentaID, @VehiculoID);
+
+          
+            UPDATE Vehiculo
+            SET stock = stock - 1
+            WHERE ID = @VehiculoID;
+
+            SET @i = @i + 1;
+        END
+
+        
+        COMMIT TRANSACTION;
+        RETURN 0;
+    END TRY
+    BEGIN CATCH
+        
+        ROLLBACK TRANSACTION;
+        RETURN 1;
+    END CATCH
+END
