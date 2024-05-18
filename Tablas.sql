@@ -102,7 +102,7 @@ CREATE TABLE Venta(
 	VehiculoID int,
 	fechaVenta date,
 	montoTotal decimal(18,2),
-	metodoPago varchar(5),
+	metodoPago varchar(50),
 	constraint fk_ClienteID_Venta foreign key (ClienteID) references Cliente(ID),
 	constraint fk_VehiculoID_Venta foreign key (VehiculoID) references Vehiculo(ID)
 );
