@@ -128,3 +128,62 @@ as
 select P.ID, CP.nombreCategoria, P.nombre, P.descripcion, P.precio, P.stock from Pieza P
 		join categoriaPieza CP ON CP.ID = P.CategoriaPiezaID
 where P.activo = 1
+
+CREATE PROCEDURE sp_Delete_Pieza
+    @ID INT
+AS
+BEGIN
+	BEGIN TRANSACTION 
+	IF NOT EXISTS ( SELECT 1 FROM Pieza WHERE ID = @ID)
+	BEGIN
+		ROLLBACK TRANSACTION;
+		RETURN 0;
+	END
+     UPDATE Pieza 
+	 SET activo = 0
+	 WHERE ID = @ID;
+
+	 IF @@ERROR <> 0
+	BEGIN
+		ROLLBACK;
+		RETURN 0;
+	END
+
+    COMMIT TRANSACTION;
+	RETURN 1;
+
+END;
+
+CREATE PROCEDURE sp_actualizar_pieza
+    @ID INT,
+    @Nombre VARCHAR(50) = NULL,
+    @Descripcion VARCHAR(300) = NULL,
+    @Precio DECIMAL(18,2) = NULL,
+    @Stock INT = NULL,
+    @Activo BIT = NULL
+AS
+BEGIN
+	BEGIN TRANSACTION 
+	IF NOT EXISTS ( SELECT 1 FROM Pieza WHERE ID = @ID)
+	BEGIN
+		ROLLBACK TRANSACTION;
+		RETURN 0;
+	END
+     UPDATE Pieza
+    SET nombre = ISNULL(@Nombre, nombre),
+        descripcion = ISNULL(@Descripcion, descripcion),
+        precio = ISNULL(@Precio, precio),
+        stock = ISNULL(@Stock, stock),
+        activo = ISNULL(@Activo, activo)
+    WHERE ID = @ID;
+
+	IF @@ERROR <> 0
+	BEGIN
+		ROLLBACK;
+		RETURN 0;
+	END
+
+    COMMIT TRANSACTION;
+	RETURN 1;
+
+END;
