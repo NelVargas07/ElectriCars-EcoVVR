@@ -1,31 +1,31 @@
 USE ElectriCars
 GO;
 
---CREATE PROCEDURE sp_listar_clientes(
---	@ID int = NULL,
---	@nombre NVARCHAR(50) = NULL,
---    @apellido NVARCHAR(50) = NULL,
---    @direccion NVARCHAR(300) = NULL,
---    @telefono NVARCHAR(100) = NULL,
---    @correo NVARCHAR(100) = NULL,
---    @contrasenia NVARCHAR(100) = NULL)
---AS
---BEGIN
---	SELECT 
---	[ID], [nombre], [apellido], 
---	[direccion], [telefono], [correo], 
---	[contrasenia], [activo]
---    FROM Cliente
---    WHERE 
---		activo = 1
---        AND (@ID IS NULL OR ID = @ID)
---        AND (@nombre IS NULL OR nombre = @nombre)
---        AND (@apellido IS NULL OR apellido = @apellido)
---        AND (@direccion IS NULL OR direccion = @direccion)
---        AND (@telefono IS NULL OR telefono = @telefono)
---        AND (@correo IS NULL OR correo = @correo)
---        AND (@contrasenia IS NULL OR contrasenia = @contrasenia)
---END;
+CREATE PROCEDURE sp_listar_clientes(
+	@ID int = NULL,
+	@nombre NVARCHAR(50) = NULL,
+   @apellido NVARCHAR(50) = NULL,
+   @direccion NVARCHAR(300) = NULL,
+   @telefono NVARCHAR(100) = NULL,
+   @correo NVARCHAR(100) = NULL,
+   @contrasenia NVARCHAR(100) = NULL)
+AS
+BEGIN
+	SELECT 
+	[ID], [nombre], [apellido], 
+	[direccion], [telefono], [correo], 
+	[contrasenia], [activo]
+   FROM Cliente
+   WHERE 
+		activo = 1
+       AND (@ID IS NULL OR ID = @ID)
+       AND (@nombre IS NULL OR nombre = @nombre)
+       AND (@apellido IS NULL OR apellido = @apellido)
+       AND (@direccion IS NULL OR direccion = @direccion)
+       AND (@telefono IS NULL OR telefono = @telefono)
+       AND (@correo IS NULL OR correo = @correo)
+       AND (@contrasenia IS NULL OR contrasenia = @contrasenia)
+END;
 
 
 --CREATE VIEW vw_listar_clientes
