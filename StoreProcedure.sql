@@ -1,5 +1,5 @@
 USE ElectriCars
-GO;
+GO
 
 CREATE PROCEDURE sp_listar_clientes(
 	@ID int = NULL,
@@ -28,25 +28,26 @@ BEGIN
 END;
 
 
---CREATE VIEW vw_listar_clientes
---as
---select ID, nombre,apellido,direccion,telefono,correo,contrasenia from Cliente
---where activo = 1
+CREATE VIEW vw_listar_clientes
+as
+select ID, nombre,apellido,direccion,telefono,correo,contrasenia from Cliente
+where activo = 1
 
---CREATE PROCEDURE sp_inicio_sesion_cliente
---	@correo varchar(100),
---	@contrasenia varchar(100)
---AS
---BEGIN
---	IF EXISTS(SELECT 1 FROM Cliente WHERE correo = @correo AND contrasenia = @contrasenia)
---		BEGIN
+CREATE PROCEDURE sp_inicio_sesion_cliente
+	@correo varchar(100),
+	@contrasenia varchar(100)
+AS
+BEGIN
+	
+	IF EXISTS(SELECT 1 FROM Cliente WHERE correo = @correo AND contrasenia = @contrasenia)
+		BEGIN
 		
---			RETURN 1
---		END
---	RETURN 0
---END
+			RETURN 1
+		END
+	RETURN 0
+END
 
-CREATE VIEW vw_listar_vehiculos
+alter VIEW vw_listar_vehiculos
 as
 select
 V.ID, TV.tipoVehiculo,
@@ -54,7 +55,7 @@ V.modelo, V.marca, V.anio,
 V.precio, V.stock, V.imagen
 from Vehiculo V
 inner join TipoVehiculo TV on TV.ID = V.TipoVehiculoID
-where activo = 1
+where activo = 1 and v.stock >= 1
 
 CREATE PROCEDURE sp_insertar_Cliente
 	@nombre varchar(50),
@@ -65,11 +66,59 @@ CREATE PROCEDURE sp_insertar_Cliente
 	@contrasenia varchar(100)
 as
 begin
-	IF NOT EXISTS( SELECT 1 FROM Cliente WHERE @correo = correo)
-		BEGIN
-			INSERT INTO Cliente (nombre, apellido, direccion, telefono, correo, contrasenia,activo)
-			VALUES (@nombre, @apellido, @direccion, @telefono, @correo, @contrasenia,1)
-			RETURN 1
-		END
-	RETURN 0
+	BEGIN TRANSACTION 
+	IF EXISTS( SELECT 1 FROM Cliente WHERE @correo = correo)
+	BEGIN
+		ROLLBACK TRANSACTION;
+		RETURN 0;
+	END
+	
+	INSERT INTO Cliente (nombre, apellido, direccion, telefono, correo, contrasenia,activo)
+	VALUES (@nombre, @apellido, @direccion, @telefono, @correo, @contrasenia,1)
+	
+	IF @@ERROR <> 0
+	BEGIN
+		ROLLBACK;
+		RETURN 0;
+	END
+	COMMIT TRANSACTION;
+	RETURN 1;
+
 end
+
+
+CREATE PROCEDURE sp_insertar_venta
+	@ClienteID int,
+	@VehiculoID int,
+	@montoTotal decimal(18,2),
+	@metodoPago varchar(50)
+AS
+BEGIN
+	BEGIN TRANSACTION
+		
+		IF NOT EXISTS( SELECT 1 FROM Cliente WHERE ID = @ClienteID)
+		BEGIN
+			ROLLBACK TRANSACTION;
+			RETURN 0;
+		END
+
+		IF EXISTS( SELECT 1 FROM Vehiculo WHERE ID = @VehiculoID AND stock >=1)
+		BEGIN
+			ROLLBACK TRANSACTION;
+			RETURN 0;	
+		END
+		INSERT INTO Venta
+		VALUES(@ClienteID,@VehiculoID,GETDATE(),@montoTotal,@metodoPago)
+
+		UPDATE Vehiculo
+		SET stock = stock - 1
+		WHERE ID = @VehiculoID
+
+		IF @@ERROR <> 0
+		BEGIN
+			ROLLBACK;
+			RETURN 0;
+		END
+		COMMIT TRANSACTION;
+		RETURN 1;
+END
