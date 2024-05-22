@@ -6,7 +6,7 @@ go
 CREATE TABLE Cliente(
 	ID int primary key identity,
 	nombre varchar(50),
-	apellido varchar(50),
+	apellido varchar(50), 
 	direccion varchar(300),
 	telefono varchar(10),
 	correo varchar(100),
