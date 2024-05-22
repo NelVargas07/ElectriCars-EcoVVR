@@ -259,7 +259,6 @@ BEGIN
     END CATCH
 END
 
-
 alter PROCEDURE sp_insertar_pieza
     @CategoriaPiezaID INT,
     @Nombre VARCHAR(50),
