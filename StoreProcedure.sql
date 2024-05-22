@@ -149,111 +149,86 @@
 
 --END;
 
---CREATE PROCEDURE sp_insertar_venta
---    @correo VARCHAR(100),
---    @sucursalID INT,
---    @montoTotal DECIMAL(18,2),
---    @metodoPago VARCHAR(50),
---    @vehiculoJSON NVARCHAR(MAX),
---    @caracteristicasJSON NVARCHAR(MAX)
---AS
---BEGIN
---    BEGIN TRANSACTION;
---    BEGIN TRY
+CREATE PROCEDURE sp_insertar_venta
+    @correo VARCHAR(100),
+    @sucursalID INT,
+    @montoTotal DECIMAL(18,2),
+    @metodoPago VARCHAR(50),
+    @vehiculoJSON NVARCHAR(MAX)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    BEGIN TRY
         
---        IF NOT EXISTS (SELECT 1 FROM Cliente WHERE correo = @correo)
---        BEGIN
---            ROLLBACK TRANSACTION;
---            RETURN 0;
---        END
+        IF NOT EXISTS (SELECT 1 FROM Cliente WHERE correo = @correo)
+        BEGIN
+            ROLLBACK TRANSACTION;
+            RETURN 0;
+        END
 
---        DECLARE @ClienteID INT;
---        SELECT @ClienteID = ID FROM Cliente WHERE correo = @correo;
+        DECLARE @ClienteID INT;
+        SELECT @ClienteID = ID FROM Cliente WHERE correo = @correo;
 
---        IF NOT EXISTS (SELECT 1 FROM Sucursal WHERE ID = @sucursalID)
---        BEGIN
---            ROLLBACK TRANSACTION;
---            RETURN 0;
---        END
+        IF NOT EXISTS (SELECT 1 FROM Sucursal WHERE ID = @sucursalID)
+        BEGIN
+            ROLLBACK TRANSACTION;
+            RETURN 0;
+        END
         
---        INSERT INTO Venta (ClienteID, SucursalID, fechaVenta, montoTotal, metodoPago)
---        VALUES (@ClienteID, @sucursalID, GETDATE(), @montoTotal, @metodoPago);
+        INSERT INTO Venta (ClienteID, SucursalID, fechaVenta, montoTotal, metodoPago)
+        VALUES (@ClienteID, @sucursalID, GETDATE(), @montoTotal, @metodoPago);
 
---        DECLARE @VentaID INT = SCOPE_IDENTITY();
+        DECLARE @VentaID INT = SCOPE_IDENTITY();
 
---        DECLARE @i INT = 0;
---        DECLARE @total_records INT;
---        SET @total_records = (SELECT COUNT(*) FROM OPENJSON(@vehiculoJSON));
+        DECLARE @i INT = 0;
+        DECLARE @total_records INT;
+        SET @total_records = (SELECT COUNT(*) FROM OPENJSON(@vehiculoJSON));
 
---        DECLARE @VehiculoID INT;
---        DECLARE @Caracteristica NVARCHAR(MAX);
+        DECLARE @VehiculoID INT;
+        DECLARE @Caracteristica NVARCHAR(MAX);
         
---        WHILE @i < @total_records
---        BEGIN
---            SET @VehiculoID = JSON_VALUE(@vehiculoJSON, CONCAT('$[', @i, '].ID'));
---            SET @Caracteristica = JSON_VALUE(@caracteristicasJSON, CONCAT('$[', @i, '].Caracteristica'));
+        WHILE @i < @total_records
+        BEGIN
+            SET @VehiculoID = JSON_VALUE(@vehiculoJSON, CONCAT('$[', @i, '].id'));
+            SET @Caracteristica = JSON_VALUE(@vehiculoJSON, CONCAT('$[', @i, '].descripcion'));
 
---            IF NOT EXISTS (SELECT 1 FROM Vehiculo WHERE ID = @VehiculoID AND stock >= 1)
---            BEGIN
---                ROLLBACK TRANSACTION;
---                RETURN 0;
---            END
+            IF NOT EXISTS (SELECT 1 FROM Vehiculo WHERE ID = @VehiculoID AND stock >= 1)
+            BEGIN
+                ROLLBACK TRANSACTION;
+                RETURN 0;
+            END
 
---            IF @Caracteristica IS NULL
---            BEGIN
---                INSERT INTO VehiculoPersonalizado (VehiculoID, caracteristicas)
---                VALUES (@VehiculoID, NULL);
---            END
---            ELSE
---            BEGIN
---                INSERT INTO VehiculoPersonalizado (VehiculoID, caracteristicas)
---                VALUES (@VehiculoID, @Caracteristica);
---            END
+            IF @Caracteristica IS NULL
+            BEGIN
+                INSERT INTO VehiculoPersonalizado (VehiculoID, caracteristicas)
+                VALUES (@VehiculoID, NULL);
+            END
+            ELSE
+            BEGIN
+                INSERT INTO VehiculoPersonalizado (VehiculoID, caracteristicas)
+                VALUES (@VehiculoID, @Caracteristica);
+            END
 
---            DECLARE @VehiculoPersonalizadoID INT = SCOPE_IDENTITY();
+            DECLARE @VehiculoPersonalizadoID INT = SCOPE_IDENTITY();
 
---            INSERT INTO Venta_VehiculoPersonalizado (ventaID, VehiculoPersonalizadoID)
---            VALUES (@VentaID, @VehiculoPersonalizadoID);
+            INSERT INTO Venta_VehiculoPersonalizado (ventaID, VehiculoPersonalizadoID,estado)
+            VALUES (@VentaID, @VehiculoPersonalizadoID,'pendiente');
 
---            UPDATE Vehiculo
---            SET stock = stock - 1
---            WHERE ID = @VehiculoID;
+            UPDATE Vehiculo
+            SET stock = stock - 1
+            WHERE ID = @VehiculoID;
 
---            SET @i = @i + 1;
---        END
+            SET @i = @i + 1;
+        END
 
---        COMMIT TRANSACTION;
---        RETURN 1;
---    END TRY
---    BEGIN CATCH
---        ROLLBACK TRANSACTION;
---        RETURN 0;
---    END CATCH
---END;
-
-
-
---CREATE PROCEDURE sp_insertar_pieza
---    @CategoriaPiezaID INT,
---    @Nombre VARCHAR(50),
---    @Descripcion VARCHAR(300),
---    @Precio DECIMAL(18,2),
---    @Stock INT
---AS
---BEGIN
---	begin transaction
---	begin try
---		INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo)
---		VALUES (@CategoriaPiezaID, @Nombre, @Descripcion, @Precio, @Stock, 1);
---		COMMIT TRANSACTION;
---		return 1;
---	END TRY
---	BEGIN CATCH
---		-- Rollback transaction on error
---		ROLLBACK TRANSACTION;
---		return 0;
---	END CATCH
---END;
+        COMMIT TRANSACTION;
+        RETURN 1;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        RETURN 0;
+    END CATCH
+-- END;
 
 CREATE VIEW vw_listar_categorias
 as
