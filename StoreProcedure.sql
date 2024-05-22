@@ -254,3 +254,7 @@
 --		return 0;
 --	END CATCH
 --END;
+
+CREATE VIEW vw_listar_categorias
+as
+select P.ID, P.nombreCategoria from CategoriaPieza P
