@@ -258,3 +258,7 @@
 CREATE VIEW vw_listar_categorias
 as
 select P.ID, P.nombreCategoria from CategoriaPieza P
+
+CREATE VIEW vw_listar_sucursal
+AS
+SELECT ID,nombre FROM Sucursal

@@ -69,3 +69,13 @@ VALUES (9, 'Asiento', 'Asiento de cuero', 300.00, 5, 1);
 
 INSERT INTO Pieza (CategoriaPiezaID, nombre, descripcion, precio, stock, activo) 
 VALUES (10, 'Alfombra', 'Alfombra para coche', 30.00, 50, 1);
+
+INSERT INTO Region (nombre) VALUES ('Costa Rica');
+
+INSERT INTO Sucursal (RegionID, nombre, direccion, telefono) VALUES (1, 'San José', 'Dirección San José', '11111111');
+INSERT INTO Sucursal (RegionID, nombre, direccion, telefono) VALUES (1, 'Alajuela', 'Dirección Alajuela', '22222222');
+INSERT INTO Sucursal (RegionID, nombre, direccion, telefono) VALUES (1, 'Cartago', 'Dirección Cartago', '33333333');
+INSERT INTO Sucursal (RegionID, nombre, direccion, telefono) VALUES (1, 'Heredia', 'Dirección Heredia', '44444444');
+INSERT INTO Sucursal (RegionID, nombre, direccion, telefono) VALUES (1, 'Guanacaste', 'Dirección Guanacaste', '55555555');
+INSERT INTO Sucursal (RegionID, nombre, direccion, telefono) VALUES (1, 'Puntarenas', 'Dirección Puntarenas', '66666666');
+INSERT INTO Sucursal (RegionID, nombre, direccion, telefono) VALUES (1, 'Limón', 'Dirección Limón', '77777777');
