@@ -2,8 +2,8 @@ USE ElectriCars
 GO
 
 CREATE PROCEDURE sp_listar_clientes(
-	@ID int = NULL,
-	@nombre NVARCHAR(50) = NULL,
+   @ID int = NULL,
+   @nombre NVARCHAR(50) = NULL,
    @apellido NVARCHAR(50) = NULL,
    @direccion NVARCHAR(300) = NULL,
    @telefono NVARCHAR(100) = NULL,
