@@ -3,41 +3,41 @@ CREATE DATABASE ElectriCars
 USE ElectriCars
 go
 
-CREATE TABLE Cliente(
-	ID int primary key identity,
-	nombre varchar(50),
-	apellido varchar(50),
-	direccion varchar(300),
-	telefono varchar(10),
-	correo varchar(100),
-	contrasenia varchar(100),
-	activo bit
-);
+-- CREATE TABLE Cliente(
+-- 	ID int primary key identity,
+-- 	nombre varchar(50),
+-- 	apellido varchar(50),
+-- 	direccion varchar(300),
+-- 	telefono varchar(10),
+-- 	correo varchar(100),
+-- 	contrasenia varchar(100),
+-- 	activo bit
+-- );
 
-CREATE TABLE TipoVehiculo(
-	ID int primary key identity,
-	tipoVehiculo varchar(50)
-);
+-- CREATE TABLE TipoVehiculo(
+-- 	ID int primary key identity,
+-- 	tipoVehiculo varchar(50)
+-- );
 
-CREATE TABLE Vehiculo(
-	ID int primary key identity,
-	TipoVehiculoID int,
-	modelo varchar(50),
-	marca varchar(50),
-	anio varchar(10),
-	precio decimal(18,2),
-	imagen varchar(300),
-	stock int,
-	activo bit,
-	constraint fk_TipoVehiculoID foreign key (TipoVehiculoID) references TipoVehiculo(ID)
-);
+-- CREATE TABLE Vehiculo(
+-- 	ID int primary key identity,
+-- 	TipoVehiculoID int,
+-- 	modelo varchar(50),
+-- 	marca varchar(50),
+-- 	anio varchar(10),
+-- 	precio decimal(18,2),
+-- 	imagen varchar(300),
+-- 	stock int,
+-- 	activo bit,
+-- 	constraint fk_TipoVehiculoID foreign key (TipoVehiculoID) references TipoVehiculo(ID)
+-- );
 
-CREATE TABLE VehiculoPersonalizado(
-	ID INT PRIMARY KEY IDENTITY,
-	VehiculoID int,
-	caracteristicas varchar(max),
-	constraint fk_VehiculoID foreign key (VehiculoID) references Vehiculo(ID)
-);
+-- CREATE TABLE VehiculoPersonalizado(
+-- 	ID INT PRIMARY KEY IDENTITY,
+-- 	VehiculoID int,
+-- 	caracteristicas varchar(max),
+-- 	constraint fk_VehiculoID foreign key (VehiculoID) references Vehiculo(ID)
+-- );
 
 CREATE TABLE CategoriaPieza(
 	ID int primary key identity,
